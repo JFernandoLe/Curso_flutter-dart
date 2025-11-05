@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:yes_no_app/presentation/widgets/her_message_bubble.dart';
+import 'package:yes_no_app/presentation/widgets/my_message_bubble.dart';
+import 'package:yes_no_app/presentation/widgets/shared/message_field_box.dart';
+
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading:Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage("https://static.wikia.nocookie.net/hieloyfuego/images/2/2f/Daenerys_Targaryen_Queen.png/revision/latest/scale-to-width-down/1000?cb=20241023160006"),
+          ),
+        ),
+        title: Text("Daenerys Targaryen")
+      ),
+      body: _ChatView(),
+      );
+  }
+}
+
+class _ChatView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView.builder(
+              itemCount: 100,
+              itemBuilder: (BuildContext context, int index){
+              return (index % 2 == 0)?MyMessageBubble():HerMessageBubble();
+            }),
+          )
+          ),
+          //Caja de texto de mensajes
+          const MessageFieldBox(),
+        ],
+      ),
+    );
+  }
+}
