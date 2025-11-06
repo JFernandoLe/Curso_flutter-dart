@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yes_no_app/config/theme/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entity/message.dart';
+import 'package:yes_no_app/infraestructure/models/yes_no_model.dart';
 import 'package:yes_no_app/presentation/providers/chat_provider.dart';
 import 'package:yes_no_app/presentation/widgets/her_message_bubble.dart';
 import 'package:yes_no_app/presentation/widgets/my_message_bubble.dart';
@@ -40,15 +42,18 @@ class _ChatView extends StatelessWidget {
           Expanded(child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListView.builder(
+              controller: chatProvider.chatScrollController,
               itemCount: chatProvider.messageList.length,
               itemBuilder: (context, int index){
                 final message=chatProvider.messageList[index];
-                return (message.fromWho==FromWho.hers)?HerMessageBubble():MyMessageBubble(message:message);
+                return (message.fromWho==FromWho.hers)?HerMessageBubble(message:message):MyMessageBubble(message:message);
             }),
           )
           ),
           //Caja de texto de mensajes
-          const MessageFieldBox(),
+          MessageFieldBox(
+            onValue: (value) => chatProvider.sendMessage(value),
+          ),
         ],
       ),
     );
